@@ -57,13 +57,14 @@ class localization(Node):
         x= np.array([0.0, 0.0, 0.0, 0.0, 0.0, 0.0])
 
         # Q is the process covariance matrix
-        
-        Q= ...
+        # choosing small values of Q to start off with
+        Q= np.diag([0.01,0.01,0.01,0.01,0.01,0.01])
 
         # R is the measurement covariance matrix
-        # As measurements, data from odometry and IMU z = [v,w,ax,ay].
+        # As measurements, data from odometry and IMU z = [x,y,th,w,v,ay].
 
-        R= ...
+        R= np.diag([1e-5,1e-5,0,4e-8,1e-3,2.89e-4])
+
         
         P= np.array([0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
                     [0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
