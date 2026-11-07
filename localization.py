@@ -19,6 +19,11 @@ from rclpy import init, spin, spin_once
 import numpy as np
 import message_filters
 
+#Additional imports -- Same as Lab 1
+from rclpy.qos import ReliabilityPolicy
+from rclpy.qos import HistoryPolicy
+from rclpy.qos import DurabilityPolicy
+
 rawSensors=0
 kalmanFilter=1
 odom_qos=QoSProfile(reliability=2, durability=2, history=1, depth=10)
@@ -74,8 +79,13 @@ class localization(Node):
         # TODO Part 3: Use the odometry and IMU data for the EKF
 
         # message_filters.Subscriber(node, msg_type, topic_name, qos_profile=...), qos_profile is optional
-        self.odom_sub=message_filters.Subscriber(...)
-        self.imu_sub=message_filters.Subscriber(...)
+
+        # Profiles same as Lab 2
+        odom_qos= QoSProfile(reliability=ReliabilityPolicy.BEST_EFFORT, durability=DurabilityPolicy.VOLATILE, history=HistoryPolicy.KEEP_LAST, depth=5)
+        imu_qos= QoSProfile(reliability=ReliabilityPolicy.BEST_EFFORT, durability=DurabilityPolicy.VOLATILE, history=HistoryPolicy.KEEP_LAST, depth=5)
+
+        self.odom_sub=message_filters.Subscriber(self, odom, "/odom", qos_profile=odom_qos)
+        self.imu_sub=message_filters.Subscriber(self, Imu, "/imu", qos_profile=imu_qos)
         
         time_syncher=message_filters.ApproximateTimeSynchronizer([self.odom_sub, self.imu_sub], queue_size=10, slop=0.1)
         time_syncher.registerCallback(self.fusion_callback)
