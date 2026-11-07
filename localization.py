@@ -97,7 +97,10 @@ class localization(Node):
         # your measurements are the linear velocity and angular velocity from odom msg
         # and linear acceleration in x and y from the imu msg
         # the kalman filter should do a proper integration to provide x,y and filter ax,ay
-        z=...
+
+        # z = [v,w,ax,ay].
+        # velocity is only in the "x" direction and angular only spins about the z axis
+        z= np.array([odom_msg.twist.twist.linear.x, odom_msg.twist.twist.angular.z, imu_msg.linear_acceleration.x, imu_msg.linear_acceleration.y])
         
         # Implement the two steps for estimation
         ...
@@ -110,7 +113,7 @@ class localization(Node):
 
         # TODO Part 4: log your data
         self.loc_logger.log_values(...)
-      
+
     def odom_callback(self, pose_msg):
         
         self.pose=[ pose_msg.pose.pose.position.x,
