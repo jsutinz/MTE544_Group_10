@@ -103,13 +103,28 @@ class localization(Node):
         z= np.array([odom_msg.twist.twist.linear.x, odom_msg.twist.twist.angular.z, imu_msg.linear_acceleration.x, imu_msg.linear_acceleration.y])
         
         # Implement the two steps for estimation
-        ...
+        # Prediction step: from the lecture
+        # x = f(x, u) # This is the motion model function
+        # P = A*P*A'+Q 
+        # # note that Q is the covariance matrix of the states
+
+        self.kf.predict()
+
+        # Update step:
+        # S = C*P*C' + R
+        # #// note that R is the covariance matrix of the measurements
+        # K = P*C'*inv(S)
+        # Y_bar = z - h(x) #// h is the measurement function
+        # x = x + K*Y_bar
+        # P = (1 - K*C)*P
+
+        self.kf.update(z)
         
         # Get the estimate
         xhat=self.kf.get_states()
 
         # Update the pose estimate to be returned by getPose
-        self.pose=np.array(...)
+        self.pose=np.array([xhat[0], xhat[1], xhat[2], odom_msg.header.stamp])
 
         # TODO Part 4: log your data
         self.loc_logger.log_values(...)
