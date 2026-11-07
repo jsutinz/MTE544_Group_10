@@ -59,11 +59,20 @@ class localization(Node):
 
         R= ...
         
-        P= ... # initial covariance
+        P= np.array([0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
+                    [0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
+                    [0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
+                    [0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
+                    [0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
+                    [0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
+
+        ) # initial covariance
         
         self.kf=kalman_filter(P,Q,R, x, dt)
         
         # TODO Part 3: Use the odometry and IMU data for the EKF
+
+        # message_filters.Subscriber(node, msg_type, topic_name, qos_profile=...), qos_profile is optional
         self.odom_sub=message_filters.Subscriber(...)
         self.imu_sub=message_filters.Subscriber(...)
         
