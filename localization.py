@@ -56,6 +56,7 @@ class localization(Node):
         Q= ...
 
         # R is the measurement covariance matrix
+        # As measurements, data from odometry and IMU z = [v,w,ax,ay].
 
         R= ...
         
