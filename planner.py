@@ -1,5 +1,6 @@
 from math import sin,cos, atan2,atan
 import math
+import numpy as np
 
 POINT_PLANNER=0; TRAJECTORY_PLANNER=1; SPIRAL_4TUNE=2
 
@@ -45,14 +46,8 @@ class planner:
             return [[x*cos(theta) - y*sin(theta),
                     x*sin(theta)  + y*cos(theta)] for x,y in path]
 
-def spiral_planner(self):
-    r_inc = 0.05
-    delta_r = 0.1
-    points = 5
-
-    path = []
-    for i in range(points):
-        t = i *delta_r
-        r = r_inc * t
-        path.append([r * cos(t), r * sin(t)])
-    return path
+    def spiral_planner(self):
+        v = 1.0
+        w = 1.0
+        t_values = np.linspace(0.0, 5.0, 100)
+        return [[v*t*cos(w*t), v*t*sin(w*t)] for t in t_values]
