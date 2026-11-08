@@ -33,7 +33,7 @@ class decision_maker(Node):
 
 
         # TODO Part 3: use the Kalman Filter
-        self.localizer=localization(kalmanFilter, dt = 0.01)
+        self.localizer=localization(kalmanFilter, dt = 0.0333)
         
         if motion_type==POINT_PLANNER:
             self.controller=controller(klp=0.2, klv=0.5, kap=0.8, kav=0.6)      
@@ -45,7 +45,7 @@ class decision_maker(Node):
             self.planner=planner(TRAJECTORY_PLANNER)
         elif motion_type==SPIRAL_4TUNE:
             self.controller=None
-            self.planner=None
+            self.planner=planner(SPIRAL_4TUNE)
             self.linearVelocity = 0
         
         else:
@@ -77,7 +77,6 @@ class decision_maker(Node):
             vel_msg.angular.z=1.0
             self.publisher.publish(vel_msg)
             return
-
         
         if type(self.goal) == list:
             reached_goal=True if calculate_linear_error(self.localizer.getPose(), self.goal[-1]) <self.reachThreshold else False

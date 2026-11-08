@@ -47,7 +47,7 @@ class planner:
                     x*sin(theta)  + y*cos(theta)] for x,y in path]
 
     def spiral_planner(self):
-        v = 1.0
-        w = 1.0
-        t_values = np.linspace(0.0, 5.0, 100)
+        v = 0.1
+        w = 1
+        t_values = np.linspace(0.0, 20.0, 200)
         return [[v*t*cos(w*t), v*t*sin(w*t)] for t in t_values]

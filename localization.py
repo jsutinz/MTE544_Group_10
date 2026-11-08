@@ -84,7 +84,6 @@ class localization(Node):
         time_syncher.registerCallback(self.fusion_callback)
     
     def fusion_callback(self, odom_msg: odom, imu_msg: Imu):
-        
         # TODO Part 3: Use the EKF to perform state estimation
         # Take the measurements
         # your measurements are the linear velocity and angular velocity from odom msg
@@ -94,7 +93,12 @@ class localization(Node):
         # z = [v,w,ax,ay].
         # velocity is only in the "x" direction and angular only spins about the z axis
         z= np.array([odom_msg.twist.twist.linear.x, odom_msg.twist.twist.angular.z, imu_msg.linear_acceleration.x, imu_msg.linear_acceleration.y])
-        
+
+
+        if self.pose is not None:
+            dt = odom_msg.header.stamp.sec + odom_msg.header.stamp.nanosec * 1e-9 - self.pose[3]
+            if dt > 0:
+                self.kf.dt = dt 
         # Implement the two steps for estimation
         # Prediction step: from the lecture
         # x = f(x, u) # This is the motion model function
