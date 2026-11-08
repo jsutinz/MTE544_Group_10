@@ -10,11 +10,11 @@ class kalman_filter:
     # TODO Part 3: Initialize the covariances and the states    
     def __init__(self, P,Q,R, x, dt):
         
-        self.P=...
-        self.Q=...
-        self.R=...
-        self.x=...
-        self.dt = ...
+        self.P= P
+        self.Q= Q
+        self.R= R
+        self.x= x
+        self.dt = dt
         
     # TODO Part 3: Replace the matrices with Jacobians where needed        
     def predict(self):
