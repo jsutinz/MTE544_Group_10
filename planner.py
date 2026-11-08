@@ -48,7 +48,7 @@ class planner:
 def spiral_planner(self):
     r = 0.05
     delta_r = 0.1
-    points = 200
+    points = 20
 
     path = []
     for i in range(points):
