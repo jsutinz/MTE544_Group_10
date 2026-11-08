@@ -19,8 +19,8 @@ class kalman_filter:
     # TODO Part 3: Replace the matrices with Jacobians where needed        
     def predict(self):
 
-        self.A = self.jacobian_A #motion model representation
-        self.C = self.jacobian_H #measurement
+        self.A = self.jacobian_A() #motion model representation
+        self.C = self.jacobian_H() #measurement
         
         self.motion_model()
         

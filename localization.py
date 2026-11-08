@@ -67,14 +67,7 @@ class localization(Node):
         R = np.diag([0.5, 0.5, 0.5, 0.5, 0.5, 0.5])
 
         
-        P= np.array([0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
-                    [0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
-                    [0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
-                    [0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
-                    [0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
-                    [0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
-
-        ) # initial covariance
+        P= np.identity(6) # initial covariance
         
         self.kf=kalman_filter(P,Q,R, x, dt)
         
