@@ -19,6 +19,9 @@ class planner:
         elif self.type==TRAJECTORY_PLANNER:
             return self.trajectory_planner()
 
+        elif self.type==SPIRAL_4TUNE:
+            return self.spiral_planner()
+
 
     def point_planner(self):
         x=-1.0; y=-1.0; theta=0.0
@@ -41,3 +44,15 @@ class planner:
             theta = 60.0 * degree_rad_conversion
             return [[x*cos(theta) - y*sin(theta),
                     x*sin(theta)  + y*cos(theta)] for x,y in path]
+
+def spiral_planner(self):
+    r = 0.05
+    delta_r = 0.1
+    points = 200
+
+    path = []
+    for i in range(points):
+        t = i *delta_r
+        r = r * t
+        path.append([r * cos(t), r * sin(t)])
+    return path
