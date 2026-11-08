@@ -46,13 +46,13 @@ class planner:
                     x*sin(theta)  + y*cos(theta)] for x,y in path]
 
 def spiral_planner(self):
-    r = 0.05
+    r_inc = 0.05
     delta_r = 0.1
-    points = 20
+    points = 5
 
     path = []
     for i in range(points):
         t = i *delta_r
-        r = r * t
+        r = r_inc * t
         path.append([r * cos(t), r * sin(t)])
     return path
