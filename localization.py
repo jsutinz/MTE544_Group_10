@@ -1,4 +1,5 @@
 import sys
+from turtle import stamp
 
 from utilities import Logger
 
@@ -98,11 +99,13 @@ class localization(Node):
         # velocity is only in the "x" direction and angular only spins about the z axis
         z= np.array([odom_msg.twist.twist.linear.x, odom_msg.twist.twist.angular.z, imu_msg.linear_acceleration.x, imu_msg.linear_acceleration.y])
 
+        stamp = odom_msg.header.stamp.sec + odom_msg.header.stamp.nanosec * 1e-9
 
-        if self.pose is not None:
-            dt = odom_msg.header.stamp.sec + odom_msg.header.stamp.nanosec * 1e-9 - self.pose[3]
+        if getattr(self, 'last_stamp', None) is not None:
+            dt = stamp - self.last_stamp
             if dt > 0:
                 self.kf.dt = dt 
+        self.last_stamp = stamp
         # Implement the two steps for estimation
         # Prediction step: from the lecture
         # x = f(x, u) # This is the motion model function
@@ -125,11 +128,11 @@ class localization(Node):
         xhat=self.kf.get_states()
 
         # Update the pose estimate to be returned by getPose
-        self.pose=np.array([xhat[0], xhat[1], xhat[2], odom_msg.header.stamp],dtype=objet)
+        self.pose=np.array([xhat[0], xhat[1], xhat[2], odom_msg.header.stamp],dtype=object)
 
         # TODO Part 4: log your data
         # self.loc_logger.log_values("imu_ax", "imu_ay", "kf_ax", "kf_ay","kf_vx","kf_w","kf_x", "kf_y","stamp")
-        self.loc_logger.log_values([z[2], z[3], xhat[5], xhat[4]*xhat[3], xhat[4], xhat[3],z[0], z[1], xhat[0], xhat[1],odom_msg.header.stamp.sec + odom_msg.header.stamp.nanosec * 1e-9])
+        self.loc_logger.log_values([z[2], z[3], xhat[5], xhat[4]*xhat[3], xhat[4], xhat[3],z[0], z[1], xhat[0], xhat[1],stamp])
 
 # if checking the odom values: self.loc_logger.log_values([z[2], z[3], xhat[5], xhat[4]*xhat[3], xhat[4], xhat[3],z[0], z[1], xhat[0], xhat[1], stamp])
     def odom_callback(self, pose_msg):
