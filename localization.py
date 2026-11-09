@@ -32,6 +32,8 @@ class localization(Node):
     
     def __init__(self, type, dt, loggerName="robotPose.csv", loggerHeaders=["imu_ax", "imu_ay", "kf_ax", "kf_ay","kf_vx","kf_w","kf_x", "kf_y","stamp"]):
 
+        # if we want to check odom values too for data collection: loggerHeaders=["imu_ax", "imu_ay", "kf_ax", "kf_ay", "kf_vx", "kf_w","odom_v", "odom_w", "kf_x", "kf_y", "stamp"]
+
         super().__init__("localizer")
 
         self.loc_logger=Logger( loggerName , loggerHeaders)
@@ -63,6 +65,8 @@ class localization(Node):
         # R is the measurement covariance matrix
         # As measurements, data from odometry and IMU z = [x,y,th,w,v,ay].
         R = np.diag([0.5, 0.5, 0.5, 0.5])
+    # R = np.diag([v, w, ax, ay])
+
 
         
         P= np.identity(6) # initial covariance
@@ -127,7 +131,7 @@ class localization(Node):
         # self.loc_logger.log_values("imu_ax", "imu_ay", "kf_ax", "kf_ay","kf_vx","kf_w","kf_x", "kf_y","stamp")
         self.loc_logger.log_values([z[2], z[3], xhat[5], xhat[4]*xhat[3], xhat[4],xhat[3], xhat[0], xhat[1], odom_msg.header.stamp.sec + odom_msg.header.stamp.nanosec * 1e-9])
 
-
+# if checking the odom values: self.loc_logger.log_values([z[2], z[3], xhat[5], xhat[4]*xhat[3], xhat[4], xhat[3],z[0], z[1], xhat[0], xhat[1], stamp])
     def odom_callback(self, pose_msg):
         
         self.pose=[ pose_msg.pose.pose.position.x,
