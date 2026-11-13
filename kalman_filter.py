@@ -54,7 +54,8 @@ class kalman_filter:
         
         x, y, th, w, v, vdot = self.x
         dt = self.dt
-        
+
+        # Motion model as described in the tutorial
         self.x = np.array([
             x + v * np.cos(th) * dt,
             y + v * np.sin(th) * dt,
@@ -70,6 +71,10 @@ class kalman_filter:
     def jacobian_A(self):
         x, y, th, w, v, vdot = self.x
         dt = self.dt
+
+        #To determine the Jacobian, the computations that were conducted in the tutorial was used
+        #The partial derivatives were taken with respect to the column
+        #This linearizes the motion model around the current state estimate (From Tutorial)
         
         return np.array([
             #x, y,               th, w,             v, vdot
@@ -85,6 +90,9 @@ class kalman_filter:
     # TODO Part 3: Implement here the jacobian of the H matrix (measurements)    
     def jacobian_H(self):
         x, y, th, w, v, vdot=self.x
+
+        #Similar to the above the derivatives were taken with respect to the variables
+        #For the sensor model
         return np.array([
             #x, y,th, w, v,vdot
             [0,0,0  , 0, 1, 0], # v

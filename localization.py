@@ -70,7 +70,7 @@ class localization(Node):
 
 
         
-        P= np.identity(6) # initial covariance
+        P= np.identity(6) # initial covariance, could not acquire from the Turtlebot, this was acceptable as per Lab TAs
         
         self.kf=kalman_filter(P,Q,R, x, dt)
         
@@ -82,6 +82,7 @@ class localization(Node):
         odom_qos= QoSProfile(reliability=ReliabilityPolicy.BEST_EFFORT, durability=DurabilityPolicy.VOLATILE, history=HistoryPolicy.KEEP_LAST, depth=5)
         imu_qos= QoSProfile(reliability=ReliabilityPolicy.BEST_EFFORT, durability=DurabilityPolicy.VOLATILE, history=HistoryPolicy.KEEP_LAST, depth=5)
 
+        # Subscribe to messages as per Lab 2
         self.odom_sub=message_filters.Subscriber(self, odom, "/odom", qos_profile=odom_qos)
         self.imu_sub=message_filters.Subscriber(self, Imu, "/imu", qos_profile=imu_qos)
         
@@ -99,6 +100,7 @@ class localization(Node):
         # velocity is only in the "x" direction and angular only spins about the z axis
         z= np.array([odom_msg.twist.twist.linear.x, odom_msg.twist.twist.angular.z, imu_msg.linear_acceleration.x, imu_msg.linear_acceleration.y])
 
+        # Set stamp values to the same as previous labs
         stamp = odom_msg.header.stamp.sec + odom_msg.header.stamp.nanosec * 1e-9
 
         if getattr(self, 'last_stamp', None) is not None:
