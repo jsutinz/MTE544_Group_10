@@ -31,7 +31,10 @@ class planner:
         # TODO PART 5 Create the cost-map, the laser_sig is 
         # the standard deviation for the gausiian for which
         # the mean is located on the occupant grid. 
-        self.m_utilites=mapManipulator(laser_sig=...)
+
+        # Turtlebot4 is about 340mm in diameter, 170mm in radius, so we need at least 17cm in padding
+        # given map utilities and 0.8 threshold then p(0.20m) = 0.8 gives sigma approximately 0.3
+        self.m_utilites=mapManipulator(laser_sig= 0.3)
             
         self.costMap=self.m_utilites.make_likelihood_field()
         
