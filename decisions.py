@@ -43,7 +43,7 @@ class decision_maker(Node):
         publishing_period=1/rate
 
         # TODO PART 5 choose your threshold
-        self.reachThreshold=0.01 #same value as Lab 3
+        self.reachThreshold=0.01 #same value as Lab 3, 1cm
 
         # TODO PART 5 your localization type
         self.localizer=localization(kalmanFilter, dt=0.0333) #odom was 30Hz (slowest sensor)
