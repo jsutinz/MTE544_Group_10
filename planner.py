@@ -34,6 +34,8 @@ class planner:
 
         # Turtlebot4 is about 340mm in diameter, 170mm in radius, so we need at least 17cm in padding
         # given map utilities and 0.8 threshold then p(0.20m) = 0.8 gives sigma approximately 0.3
+
+
         self.m_utilites=mapManipulator(laser_sig= 0.3)
             
         self.costMap=self.m_utilites.make_likelihood_field()
@@ -51,13 +53,20 @@ class planner:
         endPose=self.m_utilites.position_2_cell(endPoseCart)
         
         # TODO PART 5 convert the cell pixels into the cartesian coordinates
-        
-        Path = list(map(...))
 
+        #uses the A* to find a path through the cost map
+        paths = search(self.costMap, startPose, endPose)
+
+
+        #going back to the cartesian coords. 
+        Path = []
+        for p in paths:
+            position = self.m_utilites.cell_2_position(p)
+            Path.append(position)
 
 
         # TODO PART 5 return the path as list of [x,y]
-        return ...
+        return Path
 
 
 
