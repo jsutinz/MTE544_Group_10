@@ -20,7 +20,9 @@ from rclpy import init, spin, spin_once
 import numpy as np
 import message_filters
 
-
+# Sim only: TurtleBot3 odom starts at the world spawn (-2.0, -0.5).
+# Use (0.0, 0.0) on the real robot, where you reset odometry at the tape mark.
+ODOM_OFFSET = (2.0, 0.5)
 
 rawSensors=0; kalmanFilter=1
 
@@ -97,18 +99,17 @@ class localization(Node):
         
         xhat=self.kf.get_states()
         
-        self.pose=np.array([xhat[0],
-                            xhat[1],
+        self.pose=np.array([xhat[0] + ODOM_OFFSET[0],
+                            xhat[1] + ODOM_OFFSET[1],
                             normalize_angle(xhat[2]),
                             odom_msg.header.stamp])
         
     def odom_callback(self, pose_msg):
         
-        self.pose=[ pose_msg.pose.pose.position.x,
-                    pose_msg.pose.pose.position.y,
+        self.pose=[ pose_msg.pose.pose.position.x + ODOM_OFFSET[0],
+                    pose_msg.pose.pose.position.y + ODOM_OFFSET[1],
                     euler_from_quaternion(pose_msg.pose.pose.orientation),
                     pose_msg.header.stamp]
-        
         #self.loc_logger.log_values([self.pose[0], self.pose[1], self.pose[2], Time.from_msg(self.pose[3]).nanoseconds])
 
         
