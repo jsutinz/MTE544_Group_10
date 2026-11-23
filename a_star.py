@@ -2,7 +2,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from math import sqrt
 
-HEURISTIC = "manhattan"
+HEURISTIC = "manhattan"  # euclidean or manhattan
 
 class Node:
     """

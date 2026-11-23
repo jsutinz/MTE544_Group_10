@@ -22,7 +22,7 @@ import message_filters
 
 # Sim only: TurtleBot3 odom starts at the world spawn (-2.0, -0.5).
 # Use (0.0, 0.0) on the real robot, where you reset odometry at the tape mark.
-ODOM_OFFSET = (2.0, 0.5)
+ODOM_OFFSET = (0.0, 0.0)
 
 rawSensors=0; kalmanFilter=1
 

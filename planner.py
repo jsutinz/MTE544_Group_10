@@ -36,7 +36,7 @@ class planner:
         # given map utilities and 0.8 threshold then p(0.20m) = 0.8 gives sigma approximately 0.3
 
 
-        self.m_utilites=mapManipulator(laser_sig= 0.3)
+        self.m_utilites=mapManipulator(laser_sig= 0.6)
             
         self.costMap=self.m_utilites.make_likelihood_field()
         

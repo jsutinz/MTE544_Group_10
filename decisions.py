@@ -43,7 +43,7 @@ class decision_maker(Node):
         publishing_period=1/rate
 
         # TODO PART 5 choose your threshold
-        self.reachThreshold=0.01 #same value as Lab 3, 1cm
+        self.reachThreshold=0.1 #same value as Lab 3, 1cm
 
         # TODO PART 5 your localization type
         self.localizer=localization(kalmanFilter) #odom was 30Hz (slowest sensor)
@@ -57,7 +57,7 @@ class decision_maker(Node):
         
         elif motion_type==TRAJECTORY_PLANNER:
             # TODO PART 5 Put the gains that you concluded from lab 2
-            self.controller=trajectoryController(klp=2.5, klv=0.5, kli=0.01, kap=1.5, kav=0.05, kai=0.1)      #values from Lab 2
+            self.controller=trajectoryController(klp=0.8, klv=0.5, kap=0.8, kav=0.05)      #values from Lab 2
             self.planner=planner(TRAJECTORY_PLANNER)
         
         else:
