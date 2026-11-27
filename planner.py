@@ -1,6 +1,7 @@
 
 from mapUtilities import *
 from a_star import *
+import csv
 
 POINT_PLANNER=0; TRAJECTORY_PLANNER=1
 
@@ -63,6 +64,11 @@ class planner:
         for p in paths:
             position = self.m_utilites.cell_2_position(p)
             Path.append(position)
+
+        with open("path.csv", mode="w", newline="") as csv_file:
+            writer = csv.writer(csv_file)
+            writer.writerow(["x", "y"])
+            writer.writerows(Path)        
 
 
         # TODO PART 5 return the path as list of [x,y]
